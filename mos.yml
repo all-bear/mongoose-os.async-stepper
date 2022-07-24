@@ -1,0 +1,15 @@
+author: Oleh Biriukov
+description: Async Stepper library
+type: lib
+version: 1.0
+
+sources:
+  - src
+includes:
+  - include
+build_vars:
+
+tags:
+  - stepper
+
+manifest_version: 2017-09-29
