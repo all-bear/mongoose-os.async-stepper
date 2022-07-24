@@ -97,6 +97,10 @@ void AsyncStepper::run() {
 }
 
 void AsyncStepper::startLoop() {
-  mgos_set_hw_timer(100, MGOS_TIMER_REPEAT, std::bind(&AsyncStepper::run, this), NULL);
+  auto cb = [this] (void *arg) {
+    run();
+  };
+
+  mgos_set_hw_timer(100, MGOS_TIMER_REPEAT, cb, NULL);
 }
 
