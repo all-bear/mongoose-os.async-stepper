@@ -4,6 +4,8 @@
 #include "mgos_timers.h"
 
 const unsigned char TOTAL_STEP_PHASES = 4;
+const char STEP_DIRECTION_INCREMENT_CW = 1;
+const char STEP_DIRECTION_INCREMENT_CCW = -1;
 
 bool STEP_PHASES[TOTAL_STEP_PHASES][4] = {
   {true, false, true, false}, // 1010
@@ -13,8 +15,8 @@ bool STEP_PHASES[TOTAL_STEP_PHASES][4] = {
 };
 
 AsyncStepper::AsyncStepper(unsigned int step_delay, int motor_pin_1, int motor_pin_2, int motor_pin_3, int motor_pin_4) {
-  this->steps_position = 0;
-  this->direction = STEP_DIRECTION.CW;
+  this->steps_left = 0;
+  this->step_direction_increment = STEP_DIRECTION_INCREMENT_CW;
   this->last_step_time = 0;
   this->step_delay = step_delay;
   this->current_step_phase = 0;
@@ -37,8 +39,8 @@ void AsyncStepper::move(int steps) {
     return;
   }
 
-  this->move_to_steps_position = this->steps_position + steps;
-  this->direction = steps > 0 ? STEP_DIRECTION::CW : STEP_DIRECTION::CCW;
+  this->steps_left = steps;
+  this->step_direction_increment = steps > 0 ? STEP_DIRECTION_INCREMENT_CW : STEP_DIRECTION_INCREMENT_CCW;
   this->is_movement_done = false;
 }
 
@@ -57,7 +59,7 @@ void AsyncStepper::applyStepPhase(unsigned char phase) {
 }
 
 void AsyncStepper::applyNextStepPhase() {
-  this->current_step_phase += this->step_direction;
+  this->current_step_phase += this->step_direction_increment;
 
   if (this->current_step_phase >= TOTAL_STEP_PHASES) {
     this->current_step_phase = 0;
@@ -79,7 +81,7 @@ void AsyncStepper::run() {
     return;
   }
 
-  if (this->move_to_steps_position === this.steps_position) {
+  if (!this->steps_left) {
     this->is_movement_done = true;
     this->release();
 
@@ -90,7 +92,7 @@ void AsyncStepper::run() {
 
   this->nextStepPhase();
 
-  this.steps_position += this->step_direction;
+  this.steps_left += this->step_direction_increment;
 }
 
 void AsyncStepper::startLoop() {
