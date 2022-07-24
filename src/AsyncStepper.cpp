@@ -27,10 +27,10 @@ AsyncStepper::AsyncStepper(unsigned int step_delay, int motor_pin_1, int motor_p
   this->motor_pin_3 = motor_pin_3;
   this->motor_pin_4 = motor_pin_4;
 
-  mgos_gpio_set_mode(this->motor_pin_1, mgos_gpio_mode.MGOS_GPIO_MODE_OUTPUT);
-  mgos_gpio_set_mode(this->motor_pin_2, mgos_gpio_mode.MGOS_GPIO_MODE_OUTPUT);
-  mgos_gpio_set_mode(this->motor_pin_3, mgos_gpio_mode.MGOS_GPIO_MODE_OUTPUT);
-  mgos_gpio_set_mode(this->motor_pin_4, mgos_gpio_mode.MGOS_GPIO_MODE_OUTPUT);
+  mgos_gpio_set_mode(this->motor_pin_1, MGOS_GPIO_MODE_OUTPUT);
+  mgos_gpio_set_mode(this->motor_pin_2, MGOS_GPIO_MODE_OUTPUT);
+  mgos_gpio_set_mode(this->motor_pin_3, MGOS_GPIO_MODE_OUTPUT);
+  mgos_gpio_set_mode(this->motor_pin_4, MGOS_GPIO_MODE_OUTPUT);
 }
 
 void AsyncStepper::move(int steps) {
@@ -62,7 +62,7 @@ void AsyncStepper::applyNextStepPhase() {
 
   if (this->current_step_phase >= TOTAL_STEP_PHASES) {
     this->current_step_phase = 0;
-  } else if (this->step_phase < 0) {
+  } else if (this->current_step_phase < 0) {
     this->current_step_phase = TOTAL_STEP_PHASES - 1;
   }
 
