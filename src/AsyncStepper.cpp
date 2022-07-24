@@ -66,7 +66,7 @@ void AsyncStepper::applyNextStepPhase() {
     this->current_step_phase = TOTAL_STEP_PHASES - 1;
   }
 
-  this->stepPhase(this->current_step_phase);
+  this->applyStepPhase(this->current_step_phase);
 }
 
 void AsyncStepper::run() {
@@ -89,7 +89,7 @@ void AsyncStepper::run() {
 
   this->last_step_time = now;
 
-  this->nextStepPhase();
+  this->applyNextStepPhase();
 
   this->steps_left += this->step_direction_increment;
 }
