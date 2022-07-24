@@ -20,7 +20,6 @@ AsyncStepper::AsyncStepper(unsigned int step_delay, int motor_pin_1, int motor_p
   this->last_step_time = 0;
   this->step_delay = step_delay;
   this->current_step_phase = 0;
-  this->move_to_steps_position = 0;
   this->is_movement_done = true;
 
   this->motor_pin_1 = motor_pin_1;
@@ -92,7 +91,7 @@ void AsyncStepper::run() {
 
   this->nextStepPhase();
 
-  this.steps_left += this->step_direction_increment;
+  this->steps_left += this->step_direction_increment;
 }
 
 void AsyncStepper::startLoop() {
