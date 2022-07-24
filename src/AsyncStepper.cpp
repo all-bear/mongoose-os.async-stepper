@@ -2,6 +2,8 @@
 #include "mgos_gpio.h"
 #include "mgos_time.h"
 #include "mgos_timers.h"
+#include <functional>
+using namespace std::placeholders;
 
 const unsigned char TOTAL_STEP_PHASES = 4;
 const char STEP_DIRECTION_INCREMENT_CW = 1;
@@ -95,6 +97,6 @@ void AsyncStepper::run() {
 }
 
 void AsyncStepper::startLoop() {
-  mgos_set_hw_timer(100, MGOS_TIMER_REPEAT, this->run, NULL);
+  mgos_set_hw_timer(100, MGOS_TIMER_REPEAT, std::bind(&AsyncStepper::test, this), NULL);
 }
 
