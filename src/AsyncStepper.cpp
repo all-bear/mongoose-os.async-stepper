@@ -97,6 +97,6 @@ void AsyncStepper::run() {
 }
 
 void AsyncStepper::startLoop() {
-  mgos_set_hw_timer(100, MGOS_TIMER_REPEAT | MGOS_ESP8266_HW_TIMER_NMI, std::bind(&AsyncStepper::run, this, _1), NULL);
+  mgos_set_hw_timer(100, MGOS_TIMER_REPEAT, std::bind(&AsyncStepper::run, this), NULL);
 }
 
